@@ -9,4 +9,4 @@ SCRIPTS_DIR="${SCRIPTS_DIR:?}"
 
 . ${SCRIPTS_DIR}/const.lib.sh
 
-node reddit_mon.js
+node pinidea_mon.js

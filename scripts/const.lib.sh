@@ -7,9 +7,5 @@ set -x
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 SCRIPTS_DIR="${SCRIPTS_DIR:?}"
 
-DOCKER_IMAGE_NAME=apollo.rip.reddit.monitor
+DOCKER_IMAGE_NAME=$(node -e "console.log(require('${SCRIPTS_DIR}/../config/main.cfg.json').dockerImageName);")
 SUDO=$(which sudo || echo -ne "")
-
-getDockerImageName() {
-  node -e "console.log(require('${SCRIPTS_DIR}/../config/main.cfg.json').dockerImageName);"
-}

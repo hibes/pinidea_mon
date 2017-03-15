@@ -9,4 +9,4 @@ SCRIPTS_DIR="${SCRIPTS_DIR:?}"
 
 . ${SCRIPTS_DIR}/const.lib.sh
 
-${SUDO} docker build -t $(getDockerImageName) .
+${SUDO} docker build -t ${DOCKER_IMAGE_NAME} .

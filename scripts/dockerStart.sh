@@ -13,4 +13,4 @@ if ! docker images | grep "${DOCKER_IMAGE_NAME}"; then
   ${SCRIPTS_DIR}/build.sh
 fi
 
-${SUDO} docker run -d apollo.rip.reddit.monitor
+${SUDO} docker run -d ${DOCKER_IMAGE_NAME}
