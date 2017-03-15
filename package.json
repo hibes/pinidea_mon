@@ -1,0 +1,18 @@
+{
+  "name": "pinidea_mon",
+  "version": "0.0.1",
+  "description": "",
+  "main": "pinidea_mon.js",
+  "scripts": {
+    "build": "scripts/dockerBuild.sh",
+    "start": "scripts/start.sh",
+    "start:docker": "scripts/dockerStart.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "htmlparser": "^1.7.7",
+    "nodemailer": "^3.1.7"
+  }
+}

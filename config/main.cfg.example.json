@@ -1,0 +1,17 @@
+{
+  "destinationEmail": "anyone@example.com",
+  "dockerImageName": "pinidea_mon",
+  "domain": "com.pinidea_mon",
+  "emailSubject": "Pinidea Change Detected",
+  "periodicEmailSubject": "Pinidea Periodic Update",
+  "sourceEmail": "pinidea_mon@example.com",
+  "sourceName": "Pinidea Mon",
+  "transporter": {
+    "auth": {
+      "user": "user@gmail.com",
+      "pass": "pass"
+    },
+    "service": "gmail"
+  },
+  "url": "https://shop.pinidea.io/index.php/product-category/x11-miner/"
+}
