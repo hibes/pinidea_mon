@@ -7,7 +7,7 @@ set -x
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 SCRIPTS_DIR="${SCRIPTS_DIR:?}"
 
-. ${SCRIPTS_DIR}/const.lib.sh
+. ${SCRIPTS_DIR}/shared.lib.sh
 
 if ! docker images | grep "${DOCKER_IMAGE_NAME}"; then
   ${SCRIPTS_DIR}/build.sh

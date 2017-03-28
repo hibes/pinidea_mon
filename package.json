@@ -5,6 +5,7 @@
   "main": "pinidea_mon.js",
   "scripts": {
     "build": "scripts/dockerBuild.sh",
+    "publish": "scripts/publish.sh",
     "start": "scripts/start.sh",
     "start:docker": "scripts/dockerStart.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
