@@ -10,7 +10,7 @@ const ONE_DAY = 3600 * 1000 * 24;
 
 const DEFAULT_POLL_TIMER = TEN_MINUTES;
 const DEFAULT_RETRY_TIME = ONE_MINUTE;
-const MIN_EMAIL_FREQUENCY = ONE_DAY;
+const DEFAULT_PERIODIC_FREQ = ONE_DAY;
 
 function main() {
   load();
@@ -20,8 +20,41 @@ function main() {
   interval = setInterval(poll, conf.freq || DEFAULT_POLL_TIMER);
 }
 
-let conf = require('./config/main.cfg.json');
 let fs = require('fs');
+let configFile = './config/main.cfg.json';
+let conf = undefined;
+
+try {
+  let conf = require(configFile);
+} catch (err) {
+}
+
+if (!conf) {
+  conf = {
+    'destinationEmail': process.env.destinationEmail,
+    'dockerImageName': 'pinidea_mon',
+    'domain': 'com.pinidea_mon',
+    'emailSubject': process.env.emailSubject || 'Pinidea Change Detected',
+    'freq': process.env.freq,
+    'periodicEmailSubject': process.env.periodicEmailSubject || 'Pinidea Periodic Update',
+    'periodicEmailFreq': process.env.periodicEmailFreq || DEFAULT_PERIODIC_FREQ,
+    'sourceEmail': process.env.sourceEmail,
+    'sourceName': process.env.sourceName,
+    'transporter': {
+      'auth': {
+        'user': process.env.emailUser,
+        'pass': process.env.emailPass
+      },
+      'service': process.env.emailTransportService || 'gmail'
+    },
+    'url': 'https://shop.pinidea.io/index.php/product-category/x11-miner/'
+  };
+}
+
+if (process.env.DEBUG === 'DEBUG') {
+  console.log(JSON.stringify(conf, null, 2));
+}
+
 let htmlparser = require('htmlparser');
 let https = require('https');
 let lastData = undefined;
@@ -190,7 +223,7 @@ function poll() {
         mailOptions.subject = conf.emailSubject;
 
         sendMail(formatResults(newData));
-      } else if (lastEmailDate + MIN_EMAIL_FREQUENCY < getTime()) {
+      } else if (lastEmailDate + conf.periodicEmailFreq < getTime()) {
         mailOptions.subject = conf.periodicEmailSubject;
 
         sendMail(formatResults(newData));
