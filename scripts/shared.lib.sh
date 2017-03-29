@@ -7,6 +7,7 @@ set -x
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 SCRIPTS_DIR="${SCRIPTS_DIR:?}"
 
+DOCKER_IMAGE_NAME=$(node -e 'console.log(require("'${SCRIPTS_DIR}/../package.json'").repository.url.split("github.com/")[1].replace(".git", ""));')
 MAIN=$(node -e "console.log(require('${SCRIPTS_DIR}/../package.json').main);")
-DOCKER_IMAGE_NAME=$(node -e "try{console.log(require('${SCRIPTS_DIR}/../config/main.cfg.json').dockerImageName);}catch(err){console.log('com.pinidea_mon');}")
+PACKAGE_VERSION=$(node -e 'console.log(require("./package.json").version);')
 SUDO=$(which sudo || echo -ne "")

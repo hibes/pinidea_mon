@@ -10,8 +10,8 @@ SCRIPTS_DIR="${SCRIPTS_DIR:?}"
 . ${SCRIPTS_DIR}/shared.lib.sh
 
 main() {
-  V=$(get_version)
-  I=$(get_docker_image_name)
+  V=${PACKAGE_VERSION}
+  I=${DOCKER_IMAGE_NAME}
 
   describe=$(git describe --dirty)
 
