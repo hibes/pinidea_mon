@@ -1,3 +1,30 @@
 # Pinidea Monitor
 
 Monitors pinidea's site for changes.
+
+## Environment variables available for configuration
+
+Fields marked [*] are required
+
+* [*] destinationEmail (the e-mail at which you want to receive information)
+* freq (the frequency in milliseconds at which you want to poll the pinidea website)
+* emailSubject (the subject line for the outgoing e-mails which are triggered by changes on the site)
+* periodicEmailSubject (the subject line for the e-mail updates that are periodic and aren't triggered by changes to the site)
+* sourceEmail (the e-mail address to use as the 'From' address for all e-mails)
+* sourceName (the name to use as the 'From' name for all e-mails)
+* [*] emailUser (the e-mail address to use to sign in to the transport service)
+* [*] emailPass (the e-mail password to use to sign in to the transport service)
+* emailTransportService (the service to use to send the e-mails, see nodemailer) [default gmail]
+
+## Creating a docker container
+
+    docker create --name pinidea_mon \
+      --net=host \
+      -e destinationEmail=user@example.com \
+      -e emailUser=user@example.com \
+      -e emailPass=password \
+      hibes/pinidea_mon
+
+## Starting the docker container
+
+    docker start <hash printed out from the create step>
