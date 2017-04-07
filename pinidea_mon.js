@@ -76,8 +76,9 @@ function formatResults(json) {
   return json.reduce((acc, item) => {
     return acc + '<b>' + item.title + '</b><br>' +
       item.url + '<br>' +
-      "instock: " + item.instock + '<br>' +
-      "outofstock: " + item.outofstock + '<br><br>';
+      (item.outofstock ? 'Out of Stock' : '<h2><b>Does not say out of stock.</b></h2>') + '<br>' +
+      (item.instock ? '<h2><b>In Stock</b></h2>' : 'Does not say in stock.') + '<br>' +
+      'price: ' + '<span>The price is listed as <del>' + item.delprice + '</del><ins>' + item.insprice + '</ins><br><br>'
   }, '');
 }
 
@@ -115,13 +116,13 @@ function getData(result) {
   })[0].children.filter((element) => {
     return element.attribs && element.attribs.id === 'content';
   })[0].children.filter((element) => {
-    return element.name === 'div' && element.raw.indexOf('col-full');
+    return element.name === 'div' && element.raw.indexOf('col-full') > -1;
   })[0].children.filter((element) => {
     return element.attribs && element.attribs.id === 'primary';
   })[0].children.filter((element) => {
     return element.attribs && element.attribs.id === 'main';
   })[0].children.filter((element) => {
-    return element.name === 'ul' && element.raw.indexOf('products');
+    return element.name === 'ul' && element.raw.indexOf('products') > -1;
   })[0].children.filter((element) => {
     return element.name === 'li';
   }).map((element) => {
@@ -133,8 +134,33 @@ function getData(result) {
       return element.name === 'h3';
     });
 
+    let prices = productLink[0].children.filter((element) => {
+      return element.name === 'span' && element.raw.indexOf('price') > -1;
+    })[0].children.filter((element) => {
+      return element.name === 'span' && element.raw.indexOf('woocs_price_code') > -1;
+    });
+
+    let delPrice = prices[0].children.filter((element) => {
+      return element.name === 'del';
+    })[0].children.filter((element) => {
+      return element.name === 'span' && element.raw.indexOf('woocommerce-Price-amount') > -1;
+    })[0].children.map((element) => {
+      return element.raw;
+    });
+
+    let insPrice = prices[0].children.filter((element) => {
+      return element.name === 'ins';
+    })[0].children.filter((element) => {
+      return element.name === 'span' && element.raw.indexOf('woocommerce-Price-amount') > -1;
+    })[0].children.map((element) => {
+      return element.raw;
+    });
+
+
     let mappedElement = {
       'id': h3[0].children[0].raw,
+      'delprice': delPrice[1].replace('&nbsp;', ''),
+      'insprice': insPrice[1].replace('&nbsp;', ''),
       'outofstock': element.raw.indexOf('outofstock') !== -1,
       'instock': element.raw.indexOf('instock') !== -1,
       'title': h3[0].children[0].raw,
