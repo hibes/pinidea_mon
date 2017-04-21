@@ -1,5 +1,7 @@
 FROM hibes/debian-node-docker
 
+ENV LOGFILE=/pinidea_mon.log
+
 LABEL org.freenas.interactive="false"                                                   \
       org.freenas.version="1.01"                                                        \
       org.freenas.upgradeable="false"                                                   \
@@ -60,4 +62,4 @@ LABEL org.freenas.interactive="false"                                           
 
 COPY . ./
 
-CMD npm run start
+CMD npm run start | tee -a ${LOGFILE}
