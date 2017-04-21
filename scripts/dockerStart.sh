@@ -13,4 +13,4 @@ if ! docker images | grep "${DOCKER_IMAGE_NAME}"; then
   ${SCRIPTS_DIR}/build.sh
 fi
 
-${SUDO} docker run -d "${DOCKER_IMAGE_NAME}"
+${SUDO} docker run --restart unless-stopped -d "${DOCKER_IMAGE_NAME}"
